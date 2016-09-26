@@ -268,6 +268,8 @@ public abstract class AbstractBinderFactory implements BinderFactory {
 
                 DataSourceMetadataService dataSourceMetadataService = buildDataSourceMetadataService();
 
+                bind(dataSourceMetadataService).to(DataSourceMetadataService.class);
+
                 QuerySigningService<?> querySigningService = buildQuerySigningService(
                         loader.getPhysicalTableDictionary(),
                         dataSourceMetadataService
