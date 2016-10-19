@@ -129,7 +129,12 @@ public abstract class MappingResponseProcessor implements ResponseProcessor {
             @Override
             public void invoke(Throwable error) {
                 LOG.error(ErrorMessageFormat.FAILED_TO_SEND_QUERY_TO_DRUID.logFormat(druidQuery), error);
-                responseEmitter.onError(new ResponseException(Status.INTERNAL_SERVER_ERROR, druidQuery, error));
+                responseEmitter.onError(new ResponseException(
+                        Status.INTERNAL_SERVER_ERROR,
+                        druidQuery,
+                        error,
+                        objectMappers.getMapper().writer()
+                ));
             }
         };
     }
