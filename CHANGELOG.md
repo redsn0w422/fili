@@ -19,6 +19,10 @@ Current
 
 ### Changed:
 
+- [Disable Query split for "all" grain ](https:://github.com/yahoo/fili/pull/75)
+    - The `SplitQueryRequestHandler` now skips splitting if the requested grain is `AllGranularity`, allowing
+        users to specify multiple intervals and return one bucket`
+
 - [Allow configurable headers for Druid data requests](https:://github.com/yahoo/fili/pull/62)
     - The `AsyncDruidWebServiceImpl` now accepts a `Supplier<Map<String, String>>` argument which specifies
         the headers to add to the Druid data requests. This feature is made configurable through `SystemConfig` in
