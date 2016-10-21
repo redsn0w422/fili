@@ -4,9 +4,11 @@ package com.yahoo.bard.webservice.web.handlers
 
 import static com.yahoo.bard.webservice.data.time.DefaultTimeGrain.DAY
 import static com.yahoo.bard.webservice.data.time.DefaultTimeGrain.MONTH
+import static com.yahoo.bard.webservice.druid.model.query.AllGranularity.INSTANCE
 
 import com.yahoo.bard.webservice.druid.client.HttpErrorCallback
 import com.yahoo.bard.webservice.druid.model.query.GroupByQuery
+import com.yahoo.bard.webservice.druid.model.query.Granularity
 import com.yahoo.bard.webservice.web.DataApiRequest
 import com.yahoo.bard.webservice.web.responseprocessors.ResponseProcessor
 import com.yahoo.bard.webservice.web.responseprocessors.SplitQueryResponseProcessor
@@ -38,8 +40,8 @@ class SplitQueryRequestHandlerSpec extends Specification {
     static Interval month = new Interval(startInstant, Duration.standardDays(31))
     static Interval year = new Interval(startInstant, new DateTime(2016, 1, 1, 0, 0))
 
-
     GroupByQuery query
+    static Granularity all = INSTANCE
 
     def setup() {
         groupByQuery.getInnermostQuery() >> groupByQuery
@@ -66,6 +68,28 @@ class SplitQueryRequestHandlerSpec extends Specification {
         31        | DAY       | month
         1         | MONTH     | month
         12        | MONTH     | year
+    }
+    
+    def "Handler skips splitting for all time grain"() {
+        groupByQuery.granularity >> timeGrain
+        groupByQuery.intervals >> [interval]
+        rc.numberOfIncoming >> new AtomicLong(1)
+        rc.numberOfOutgoing >> new AtomicLong(1)
+
+        when:
+        handler.handleRequest(rc, apiRequest, groupByQuery, response)
+
+        then:
+        (0) * groupByQuery.withAllIntervals(_) >> groupByQuerySplit
+        (1) * next.handleRequest(rc, apiRequest, groupByQuery, response)
+        
+        where:
+        timeGrain | interval
+        all       | week
+        all       | month
+        all       | month
+        all       | year
+
     }
 
     def "Handler sends error on no duration request"() {
