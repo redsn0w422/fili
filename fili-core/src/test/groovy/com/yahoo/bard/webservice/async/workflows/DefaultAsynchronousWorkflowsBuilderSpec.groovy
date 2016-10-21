@@ -20,6 +20,8 @@ import com.yahoo.bard.webservice.web.PreResponse
 import com.yahoo.bard.webservice.web.responseprocessors.ResponseContext
 import com.yahoo.bard.webservice.web.responseprocessors.ResponseContextKeys
 
+import com.fasterxml.jackson.databind.ObjectMapper
+
 import org.joda.time.DateTime
 
 import rx.Observable
@@ -61,7 +63,9 @@ class DefaultAsynchronousWorkflowsBuilderSpec extends Specification {
             404,
             "not found",
             "not found",
-            Mock(DruidAggregationQuery)
+            Mock(DruidAggregationQuery),
+            null, // cause
+            null // Not serializing the exception.
     )
 
     @Subject DefaultAsynchronousWorkflowsBuilder asynchronousProcessBuilder = new DefaultAsynchronousWorkflowsBuilder(

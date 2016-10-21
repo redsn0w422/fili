@@ -55,9 +55,12 @@ Current
 
 ### Deprecated:
 
-
+- [All constructors of `ResponseException` that do not take an `ObjectWriter`](https://github.com/yahoo/fili/pull/70)
+    * An `ObjectWriter` is required in order to ensure that the exception correctly serializes its associated Druid query
 
 ### Fixed:
+
+- [Druid queries are now serialized correctly when logging `ResponseExceptions`](https://github.com/yahoo/fili/pull/70)
 
 - [Fixed typo emit -> omit in Utils.java omitField()](https://github.com/yahoo/fili/pull/68)
 
