@@ -1,0 +1,12 @@
+ALPHA=4
+BAR=5
+DASH=6
+LEFT_BRACKET=7
+RIGHT_BRACKET=8
+SEP=9
+STRING=10
+','=9
+'-'=6
+'['=7
+']'=8
+'|'=5
