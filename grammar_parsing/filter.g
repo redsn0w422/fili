@@ -1,15 +1,17 @@
 grammar filter;
 
 options {
-	language = Java;
+    language = Java;
 }
  
 tokens {
-	BAR = '|' ;
-	DASH = '-' ;
-	LEFT_BRACKET = '[' ;
-	RIGHT_BRACKET = ']' ;
-	SEP = ',' ;
+    BAR = '|' ;
+    DASH = '-' ;
+    LEFT_BRACKET = '[' ;
+    RIGHT_BRACKET = ']' ;
+    SEP = ',' ;
+    QUOTE  = '"';
+    
 }
  
 @members {
@@ -33,19 +35,19 @@ tokens {
  
 filters : filter (SEP filter)* ;
 
-filter	: dimname BAR dimfield DASH filterop LEFT_BRACKET item (SEP item)* RIGHT_BRACKET ;
+filter  : dimname BAR dimfield DASH filterop ;
 
-dimname	: STRING ;
+dimname : STRING ;
 
-dimfield:	 STRING ;
+dimfield: STRING ;
 
-filterop:	STRING ;
+filterop: LEFT_BRACKET item (SEP item)* RIGHT_BRACKET ;
 
-item 	:	STRING;
+item    : QUOTE STRING QUOTE;
 
-ALPHA: 'a'..'z' | 'A'..'Z' | '1'..'9';
+ALPHA   : 'a'..'z' | 'A'..'Z' | '1'..'9' | ' ';
 
-STRING	:	 (ALPHA)* ;
+STRING  :    (ALPHA)* ;
 
 
 
