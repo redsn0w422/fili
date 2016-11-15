@@ -10,7 +10,7 @@ tokens {
     LEFT_BRACKET = '[' ;
     RIGHT_BRACKET = ']' ;
     SEP = ',' ;
-    QUOTE  = '"';
+    QUOTE  = '\"';
     
 }
  
@@ -43,11 +43,11 @@ dimfield: STRING ;
 
 filterop: LEFT_BRACKET item (SEP item)* RIGHT_BRACKET ;
 
-item    : QUOTE STRING QUOTE;
+item    :  QUOTE ~(QUOTE)* QUOTE;
 
 ALPHA   : 'a'..'z' | 'A'..'Z' | '1'..'9' | ' ';
 
-STRING  :    (ALPHA)* ;
+STRING  :   (ALPHA)* ;
 
 
 
